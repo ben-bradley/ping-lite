@@ -1,6 +1,6 @@
-ping-lite
+ping-lite [![Build Status](https://secure.travis-ci.org/ben-bradley/ping-lite.png)](http://travis-ci.org/ben-bradley/ping-lite)
 =========
-A simple ping module for NodeJS apps
+A simple ping module for NodeJS apps.
 
 Install
 =======
