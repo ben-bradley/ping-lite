@@ -1,0 +1,33 @@
+{
+  "name": "ping-lite",
+  "version": "0.0.1",
+  "description": "A very simple ping wrapper",
+  "keywords": [
+    "ping",
+    "tcp",
+    "icmp"
+  ],
+  "author": {
+    "name": "Ben Bradley",
+    "email": "ben@bradleyit.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ben-bradley/ping-lite"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "browser": {
+  },
+  "main": "ping-lite.js",
+  "engines": {
+    "node": "*"
+  },
+  "readmeFilename": "Readme.md",
+  "bugs": {
+    "url": "https://github.com/ben-bradley/ping-lite/issues"
+  },
+  "homepage": "https://github.com/ben-bradley/ping-lite"
+}
