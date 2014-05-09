@@ -19,15 +19,17 @@ function Ping(host, options) {
   if (WIN) {
     this._bin = 'c:/windows/system32/ping.exe';
     this._options = (options) ? options : [ '-n', '1', '-w', '5000', host ];
-
+    this._regmatch = /time=(.+?)ms/; // the reg to catch ms response
   }
   else if (LIN) {
     this._bin = '/bin/ping';
     this._options = (options) ? options : [ '-n', '-w 2', '-c 1', host ];
+    this._regmatch = /time=(.+?) ms/; // need to verify this
   }
   else if (MAC) {
     this._bin = '/sbin/ping';
     this._options = [ '-n', '-t 2', '-c 1', host ];
+    this._regmatch = /time=(.+?) ms/; // need to verify this
   }
   else {
     throw new Error('Could not detect your ping binary.');
@@ -68,14 +70,8 @@ Ping.prototype.send = function(callback) {
         stderr = this.stderr._stderr,
         ms;
 
-    if (WIN) {
-      ms = stdout.match(/time=(.+?)ms/);
-      ms = (ms && ms[1]) ? Number(ms[1]) : ms;
-    }
-    else if (MAC || LIN) { // LIN not verified
-      ms = stdout.match(/time=(.+?) ms/);
-      ms = (ms && ms[1]) ? Number(ms[1]) : ms;
-    }
+    ms = stdout.match(self._regmatch);
+    ms = (ms && ms[1]) ? Number(ms[1]) : ms;
 
     if (callback)
       callback(ms);
