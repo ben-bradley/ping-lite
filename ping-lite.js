@@ -9,25 +9,25 @@ module.exports = Ping;
 function Ping(host, options) {
   if (!host)
     throw new Error('You must specify a host to ping!');
-  
+
   this._host = host;
-  this._options = (options || {});
+  this._options = options = (options || {});
 
   events.EventEmitter.call(this);
 
   if (WIN) {
     this._bin = 'c:/windows/system32/ping.exe';
-    this._options = (options) ? options : [ '-n', '1', '-w', '5000', host ];
+    this._args = (options.args) ? options.args : [ '-n', '1', '-w', '5000', host ];
     this._regmatch = /time=(.+?)ms/;
   }
   else if (LIN) {
     this._bin = '/bin/ping';
-    this._options = (options) ? options : [ '-n', '-w', '2', '-c', '1', host ];
+    this._args = (options.args) ? options.args : [ '-n', '-w', '2', '-c', '1', host ];
     this._regmatch = /time=(.+?) ms/; // need to verify this
   }
   else if (MAC) {
     this._bin = '/sbin/ping';
-    this._options = [ '-n', '-t', '2', '-c', '1', host ];
+    this._args = (options.args) ? options.args : [ '-n', '-t', '2', '-c', '1', host ];
     this._regmatch = /time=(.+?) ms/;
   }
   else {
@@ -45,8 +45,8 @@ Ping.prototype.__proto__ = events.EventEmitter.prototype;
 // ===========
 Ping.prototype.send = function(callback) {
   var self = this;
-  
-  this._ping = spawn(this._bin, this._options); // spawn the binary
+
+  this._ping = spawn(this._bin, this._args); // spawn the binary
 
   this._ping.on('error', function(err) { // handle binary errors
     if (callback)
