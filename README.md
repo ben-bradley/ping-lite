@@ -6,6 +6,10 @@ Install
 =======
 `npm install git://github.com/ben-bradley/ping-lite`
 
+Test
+====
+`cd node_modules/ping-lite && mocha`
+
 Usage
 =====
 ```javascript
