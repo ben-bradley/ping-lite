@@ -72,11 +72,9 @@ Ping.prototype.send = function(callback) {
       ms = stdout.match(/time=(.+?)ms/);
       ms = (ms && ms[1]) ? Number(ms[1]) : ms;
     }
-    else if (LIN || MAC) {
-      /* NEED TO BUILD THIS OUT
-       * if no response, ms = 0 && err = null
-       */
-      ms = (stdout) ? stdout : ms;
+    else if (MAC || LIN) { // LIN not verified
+      ms = stdout.match(/time=(.+?) ms/);
+      ms = (ms && ms[1]) ? Number(ms[1]) : ms;
     }
 
     if (callback)
