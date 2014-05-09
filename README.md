@@ -69,5 +69,5 @@ ping.on('result', function(ms) {
   console.log(this._host+' responded in '+ms+'ms.');
 });
 
-ping.send();
+ping.send(); // or ping.start();
 ```
