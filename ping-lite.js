@@ -66,7 +66,7 @@ Ping.prototype.send = function(callback) {
   this._ping.on('exit', function(code) {
     var stdout = this.stdout._stdout,
         stderr = this.stderr._stderr,
-        ms = 0;
+        ms;
 
     if (WIN) {
       ms = stdout.match(/time=(.+?)ms/);
@@ -80,9 +80,9 @@ Ping.prototype.send = function(callback) {
     }
 
     if (callback)
-      callback(null, ms);
+      callback(ms);
     else
-      self.emit('result', null, ms);
+      self.emit('result', ms);
   });
 };
 
