@@ -7,29 +7,28 @@ var spawn = require('child_process').spawn,
 module.exports = Ping;
 
 function Ping(host, options) {
+  if (!host)
+    throw new Error('You must specify a host to ping!');
+  
   this._host = host;
-  this._options = options;
+  this._options = (options || {});
 
-  // EVENTS
-  // ======
   events.EventEmitter.call(this);
 
-  // BINARY DETECTION
-  // ================
   if (WIN) {
     this._bin = 'c:/windows/system32/ping.exe';
     this._options = (options) ? options : [ '-n', '1', '-w', '5000', host ];
-    this._regmatch = /time=(.+?)ms/; // the reg to catch ms response
+    this._regmatch = /time=(.+?)ms/;
   }
   else if (LIN) {
     this._bin = '/bin/ping';
-    this._options = (options) ? options : [ '-n', '-w 2', '-c 1', host ];
+    this._options = (options) ? options : [ '-n', '-w', '2', '-c', '1', host ];
     this._regmatch = /time=(.+?) ms/; // need to verify this
   }
   else if (MAC) {
     this._bin = '/sbin/ping';
-    this._options = [ '-n', '-t 2', '-c 1', host ];
-    this._regmatch = /time=(.+?) ms/; // need to verify this
+    this._options = [ '-n', '-t', '2', '-c', '1', host ];
+    this._regmatch = /time=(.+?) ms/;
   }
   else {
     throw new Error('Could not detect your ping binary.');
@@ -40,37 +39,36 @@ function Ping(host, options) {
   return this;
 };
 
-// PROTOTYPE EVENTS
-// ================
 Ping.prototype.__proto__ = events.EventEmitter.prototype;
 
 // SEND A PING
 // ===========
 Ping.prototype.send = function(callback) {
   var self = this;
-  this._ping = spawn(this._bin, this._options);
+  
+  this._ping = spawn(this._bin, this._options); // spawn the binary
 
-  this._ping.on('error', function(err) {
+  this._ping.on('error', function(err) { // handle binary errors
     if (callback)
       callback(err);
     else
       self.emit('error', err);
   });
 
-  this._ping.stdout.on('data', function(data) {
+  this._ping.stdout.on('data', function(data) { // log stdout
     this._stdout = (this._stdout || '') + data;
   });
 
-  this._ping.stderr.on('data', function(data) {
+  this._ping.stderr.on('data', function(data) { // log stderr
     this._stderr = (this._stderr || '') + data;
   });
 
-  this._ping.on('exit', function(code) {
+  this._ping.on('exit', function(code) { // handle complete
     var stdout = this.stdout._stdout,
         stderr = this.stderr._stderr,
         ms;
 
-    ms = stdout.match(self._regmatch);
+    ms = stdout.match(self._regmatch); // parse out the ##ms response
     ms = (ms && ms[1]) ? Number(ms[1]) : ms;
 
     if (callback)
@@ -80,14 +78,18 @@ Ping.prototype.send = function(callback) {
   });
 };
 
+// CALL Ping#send(callback) ON A TIMER
+// ===================================
 Ping.prototype.start = function(callback) {
   var self = this;
   this._i = setInterval(function() {
     self.send(callback)
-  }, 5000);
+  }, (self._options.interval || 5000));
   self.send(callback);
 };
 
+// STOP SENDING PINGS
+// ==================
 Ping.prototype.stop = function() {
   clearInterval(this._i);
 };
