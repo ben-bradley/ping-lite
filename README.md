@@ -46,7 +46,7 @@ ping.send(function(ms) {
 });
 ```
 ```javascript
-// send pings unilt stopped & handle results with callbacks
+// send pings until stopped & handle results with callbacks
 var Ping = require('ping-lite');
 
 var ping = new Ping('8.8.8.8');
