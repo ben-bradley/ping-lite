@@ -1,4 +1,4 @@
-ping-lite [![Build Status](https://secure.travis-ci.org/ben-bradley/ping-lite.png)](http://travis-ci.org/ben-bradley/ping-lite)
+ping-lite [![Build Status](https://secure.travis-ci.org/ben-bradley/ping-lite.png)](http://travis-ci.org/ben-bradley/ping-lite) [![NPM](https://nodei.co/npm/ping-lite.png?downloads=true)](https://nodei.co/npm/ping-lite/)
 =========
 A simple ping module for NodeJS apps.
 
