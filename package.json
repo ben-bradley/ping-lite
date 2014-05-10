@@ -1,12 +1,15 @@
 {
   "name": "ping-lite",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A very simple ping wrapper",
   "keywords": [
     "ping",
     "tcp",
     "icmp"
   ],
+  "scripts": {
+    "test": "cd test && mocha ./"
+  },
   "author": {
     "name": "Ben Bradley",
     "email": "ben@bradleyit.com"

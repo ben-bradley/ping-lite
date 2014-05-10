@@ -1,4 +1,4 @@
-var Ping = require('ping-lite'),
+var Ping = require('../ping-lite'),
     assert = require('assert');
 
 describe('ping-lite.js', function() {
