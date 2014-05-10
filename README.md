@@ -4,7 +4,7 @@ A simple ping module for NodeJS apps.
 
 Install
 =======
-`npm install git://github.com/ben-bradley/ping-lite`
+`npm install ping-lite`
 
 Test
 ====
