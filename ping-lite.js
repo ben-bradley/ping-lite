@@ -1,5 +1,6 @@
 var spawn = require('child_process').spawn,
     events = require('events'),
+    fs = require('fs'),
     WIN = /^win/.test(process.platform),
     LIN = /^linux/.test(process.platform),
     MAC = /^darwin/.test(process.platform);
@@ -34,6 +35,9 @@ function Ping(host, options) {
     throw new Error('Could not detect your ping binary.');
   }
 
+  if (!fs.existsSync(this._bin))
+    throw new Error('Could not detect '+this._bin+' on your system');
+
   this._i = 0;
 
   return this;
@@ -67,6 +71,11 @@ Ping.prototype.send = function(callback) {
     var stdout = this.stdout._stdout,
         stderr = this.stderr._stderr,
         ms;
+
+    if (stderr)
+      throw new Error(stderr);
+    else if (!stdout)
+      throw new Error('No stdout detected');
 
     ms = stdout.match(self._regmatch); // parse out the ##ms response
     ms = (ms && ms[1]) ? Number(ms[1]) : ms;

@@ -23,17 +23,24 @@ describe('ping-lite.js', function() {
         done();
       });
     });
+    it('www.google.com should get a response', function(done) {
+      var ping = new Ping('www.google.com');
+      ping.send(function(ms) {
+        assert(Number(ms), 'Google may not be reachable');
+        done();
+      });
+    });
     it('8.8.8.88 should NOT get a response', function(done) {
       var ping = new Ping('8.8.8.88');
       ping.send(function(ms) {
-        assert(ms === null, 'You pinged 8.8.8.88!?');
+        assert(ms === null, 'how did you ping 8.8.8.88!?');
         done();
       });
     });
   });
   describe('#start', function() {
-    this.timeout(16000);
     it('should send 3 pings to 8.8.8.8 with defaults', function(done) {
+      this.timeout(16000);
       var ping = new Ping('8.8.8.8');
       var pings = 0;
       ping.start(function(ms) {
@@ -46,18 +53,15 @@ describe('ping-lite.js', function() {
         done();
       }, 15000);
     });
-    it('should send 5 pings to 8.8.8.8 with { interval: 1000 }', function(done) {
-      var ping = new Ping('8.8.8.8', { interval: 1000 });
+    it('should send 10 pings to 8.8.8.8 with { interval: 500 } in ~ 5 sec', function(done) {
+      this.timeout(5100);
+      var ping = new Ping('8.8.8.8', { interval: 500 });
       var pings = 0;
       ping.start(function(ms) {
         assert((Number(ms) || ms === null), '#send returned something unexpected');
-        ++pings;
+        if (++pings === 10)
+          done();
       });
-      setTimeout(function() {
-        ping.stop();
-        assert(pings === 5, '#start did not send 3 pings: '+pings)
-        done();
-      }, 5000);
     });
   });
 });
