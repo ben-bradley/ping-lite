@@ -53,7 +53,7 @@ describe('ping-lite.js', function() {
         done();
       }, 15000);
     });
-    it('should send 10 pings to 8.8.8.8 with { interval: 500 } in < 5 sec', function(done) {
+    it('should send 10 pings to 8.8.8.8 with { interval: 500 } in ~ 5 sec', function(done) {
       this.timeout(5100);
       var ping = new Ping('8.8.8.8', { interval: 500 });
       var pings = 0;
