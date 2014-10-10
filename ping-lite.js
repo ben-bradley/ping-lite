@@ -68,6 +68,9 @@ Ping.prototype.send = function(callback) {
         stderr = this.stderr._stderr,
         ms;
 
+    if (stderr)
+      throw new Error(stderr);
+
     ms = stdout.match(self._regmatch); // parse out the ##ms response
     ms = (ms && ms[1]) ? Number(ms[1]) : ms;
 
