@@ -1,5 +1,6 @@
 var spawn = require('child_process').spawn,
     events = require('events'),
+    fs = require('fs'),
     WIN = /^win/.test(process.platform),
     LIN = /^linux/.test(process.platform),
     MAC = /^darwin/.test(process.platform);
@@ -33,6 +34,9 @@ function Ping(host, options) {
   else {
     throw new Error('Could not detect your ping binary.');
   }
+
+  if (!fs.existsSync(this._bin))
+    throw new Error('Could not detect '+this._bin+' on your system');
 
   this._i = 0;
 
