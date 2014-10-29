@@ -1,37 +1,28 @@
 {
   "name": "ping-lite",
-  "version": "0.0.5",
-  "description": "A very simple ping wrapper",
-  "keywords": [
-    "ping",
-    "tcp",
-    "icmp"
-  ],
+  "version": "0.1.0",
+  "description": "A simple ping wrapper",
+  "main": "index.js",
   "scripts": {
-    "test": "cd test && mocha ./"
-  },
-  "author": {
-    "name": "Ben Bradley",
-    "email": "ben@bradleyit.com"
+    "test": "mocha -R spec"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/ben-bradley/ping-lite"
   },
-  "dependencies": {
-  },
-  "devDependencies": {
-    "mocha": "*"
-  },
-  "browser": {
-  },
-  "main": "ping-lite.js",
-  "engines": {
-    "node": "*"
-  },
-  "readmeFilename": "Readme.md",
+  "keywords": [
+    "ping",
+    "tcp",
+    "icmp"
+  ],
+  "author": "Ben Bradley",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ben-bradley/ping-lite/issues"
   },
-  "homepage": "https://github.com/ben-bradley/ping-lite"
+  "homepage": "https://github.com/ben-bradley/ping-lite",
+  "devDependencies": {
+    "should": "^4.1.0",
+    "mocha": "^2.0.1"
+  }
 }
