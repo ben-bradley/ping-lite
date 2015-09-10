@@ -1,6 +1,6 @@
 {
   "name": "ping-lite",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "A very simple ping wrapper",
   "keywords": [
     "ping",

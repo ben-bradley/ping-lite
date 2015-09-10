@@ -41,7 +41,7 @@ function Ping(host, options) {
   this._i = 0;
 
   return this;
-};
+}
 
 Ping.prototype.__proto__ = events.EventEmitter.prototype;
 
@@ -52,7 +52,7 @@ Ping.prototype.send = function(callback) {
   callback = callback || function(err, ms) {
     if (err) return self.emit('error', err);
     else     return self.emit('result', ms);
-  }
+  };
 
   var _ended, _exited, _errored;
 
@@ -102,7 +102,7 @@ Ping.prototype.send = function(callback) {
 Ping.prototype.start = function(callback) {
   var self = this;
   this._i = setInterval(function() {
-    self.send(callback)
+    self.send(callback);
   }, (self._options.interval || 5000));
   self.send(callback);
 };
