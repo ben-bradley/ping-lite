@@ -50,9 +50,12 @@ Ping.prototype.__proto__ = events.EventEmitter.prototype;
 Ping.prototype.send = function(callback) {
   var self = this;
 
+  var _ended, _exited, _errored;
+
   this._ping = spawn(this._bin, this._args); // spawn the binary
 
   this._ping.on('error', function(err) { // handle binary errors
+    _errored = true;
     if (callback)
       callback(err);
     else
@@ -63,11 +66,21 @@ Ping.prototype.send = function(callback) {
     this._stdout = (this._stdout || '') + data;
   });
 
+  this._ping.stdout.on('end', function() {
+    _ended = true;
+    if (_exited && !_errored) onEnd.call(self._ping);
+  });
+
   this._ping.stderr.on('data', function(data) { // log stderr
     this._stderr = (this._stderr || '') + data;
   });
 
   this._ping.on('exit', function(code) { // handle complete
+    _exited = true;
+    if (_ended && !_errored) onEnd.call(self._ping);
+  });
+
+  function onEnd() {
     var stdout = this.stdout._stdout,
         stderr = this.stderr._stderr,
         ms;
@@ -84,7 +97,7 @@ Ping.prototype.send = function(callback) {
       callback(ms);
     else
       self.emit('result', ms);
-  });
+  }
 };
 
 // CALL Ping#send(callback) ON A TIMER
