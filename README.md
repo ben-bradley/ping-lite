@@ -17,7 +17,7 @@ var Ping = require('ping-lite');
 
 var ping = new Ping('8.8.8.8');
 
-ping.send(function(ms) {
+ping.send(function(err, ms) {
   console.log(this._host+' responded in '+ms+'ms.');
 });
 ```
@@ -41,7 +41,7 @@ var Ping = require('ping-lite');
 
 var ping = new Ping('8.8.8.8');
 
-ping.send(function(ms) {
+ping.send(function(err, ms) {
   console.log(this._host+' responded in '+ms+'ms.');
 });
 ```
@@ -51,7 +51,7 @@ var Ping = require('ping-lite');
 
 var ping = new Ping('8.8.8.8');
 
-ping.start(function(ms) {
+ping.start(function(err, ms) {
   console.log(this._host+' responded in '+ms+'ms.');
 });
 
@@ -69,7 +69,7 @@ ping.on('error', function(err) {
   console.log('uhoh: ',err);
 });
 
-ping.on('result', function(ms) {
+ping.on('result', function(err, ms) {
   console.log(this._host+' responded in '+ms+'ms.');
 });
 
