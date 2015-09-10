@@ -49,17 +49,17 @@ Ping.prototype.__proto__ = events.EventEmitter.prototype;
 // ===========
 Ping.prototype.send = function(callback) {
   var self = this;
+  callback = callback || function(err, ms) {
+    if (err) return self.emit('error', err);
+    else     return self.emit('result', ms);
+  }
 
   var _ended, _exited, _errored;
 
   this._ping = spawn(this._bin, this._args); // spawn the binary
 
   this._ping.on('error', function(err) { // handle binary errors
-    _errored = true;
-    if (callback)
-      callback(err);
-    else
-      self.emit('error', err);
+    callback(err);
   });
 
   this._ping.stdout.on('data', function(data) { // log stdout
@@ -86,17 +86,14 @@ Ping.prototype.send = function(callback) {
         ms;
 
     if (stderr)
-      throw new Error(stderr);
+      callback(new Error(stderr));
     else if (!stdout)
-      throw new Error('No stdout detected');
+      callback(new Error('No stdout detected'));
 
     ms = stdout.match(self._regmatch); // parse out the ##ms response
     ms = (ms && ms[1]) ? Number(ms[1]) : ms;
 
-    if (callback)
-      callback(ms);
-    else
-      self.emit('result', ms);
+    callback(null, ms);
   }
 };
 

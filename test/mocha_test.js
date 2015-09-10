@@ -18,21 +18,21 @@ describe('ping-lite.js', function() {
     this.timeout(6000); // ping timer shouldn't exceed 5000ms
     it('8.8.8.8 should get a response', function(done) {
       var ping = new Ping('8.8.8.8');
-      ping.send(function(ms) {
+      ping.send(function(err, ms) {
         assert(Number(ms), 'Google DNS may not be reachable');
         done();
       });
     });
     it('www.google.com should get a response', function(done) {
       var ping = new Ping('www.google.com');
-      ping.send(function(ms) {
+      ping.send(function(err, ms) {
         assert(Number(ms), 'Google may not be reachable');
         done();
       });
     });
     it('8.8.8.88 should NOT get a response', function(done) {
       var ping = new Ping('8.8.8.88');
-      ping.send(function(ms) {
+      ping.send(function(err, ms) {
         assert(ms === null, 'how did you ping 8.8.8.88!?');
         done();
       });
@@ -43,7 +43,7 @@ describe('ping-lite.js', function() {
       this.timeout(16000);
       var ping = new Ping('8.8.8.8');
       var pings = 0;
-      ping.start(function(ms) {
+      ping.start(function(err, ms) {
         assert((Number(ms) || ms === null), '#send returned something unexpected');
         ++pings;
       });
@@ -57,7 +57,7 @@ describe('ping-lite.js', function() {
       this.timeout(5100);
       var ping = new Ping('8.8.8.8', { interval: 500 });
       var pings = 0;
-      ping.start(function(ms) {
+      ping.start(function(err, ms) {
         assert((Number(ms) || ms === null), '#send returned something unexpected');
         if (++pings === 10)
           done();
