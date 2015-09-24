@@ -59,6 +59,7 @@ Ping.prototype.send = function(callback) {
   this._ping = spawn(this._bin, this._args); // spawn the binary
 
   this._ping.on('error', function(err) { // handle binary errors
+    _errored = true;
     callback(err);
   });
 
@@ -86,9 +87,9 @@ Ping.prototype.send = function(callback) {
         ms;
 
     if (stderr)
-      callback(new Error(stderr));
+      return callback(new Error(stderr));
     else if (!stdout)
-      callback(new Error('No stdout detected'));
+      return callback(new Error('No stdout detected'));
 
     ms = stdout.match(self._regmatch); // parse out the ##ms response
     ms = (ms && ms[1]) ? Number(ms[1]) : ms;
