@@ -1,6 +1,7 @@
 var spawn = require('child_process').spawn,
     events = require('events'),
     fs = require('fs'),
+    process = require('process'),
     WIN = /^win/.test(process.platform),
     LIN = /^linux/.test(process.platform),
     MAC = /^darwin/.test(process.platform);
@@ -17,7 +18,7 @@ function Ping(host, options) {
   events.EventEmitter.call(this);
 
   if (WIN) {
-    this._bin = 'c:/windows/system32/ping.exe';
+    this._bin = (process.env.SystemRoot || process.env.windir) + '/system32/ping.exe';
     this._args = (options.args) ? options.args : [ '-n', '1', '-w', '5000', host ];
     this._regmatch = /time=(.+?)ms/;
   }
