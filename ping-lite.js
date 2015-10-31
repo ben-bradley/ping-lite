@@ -1,7 +1,6 @@
 var spawn = require('child_process').spawn,
     events = require('events'),
     fs = require('fs'),
-    process = require('process'),
     WIN = /^win/.test(process.platform),
     LIN = /^linux/.test(process.platform),
     MAC = /^darwin/.test(process.platform);
