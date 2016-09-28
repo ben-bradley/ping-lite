@@ -19,7 +19,7 @@ function Ping(host, options) {
   if (WIN) {
     this._bin = 'c:/windows/system32/ping.exe';
     this._args = (options.args) ? options.args : [ '-n', '1', '-w', '5000', host ];
-    this._regmatch = /time=(.+?)ms/;
+    this._regmatch = /time[><=](.+?)ms/;
   }
   else if (LIN) {
     this._bin = '/bin/ping';
