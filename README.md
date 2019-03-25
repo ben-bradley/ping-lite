@@ -18,7 +18,7 @@ var Ping = require('ping-lite');
 var ping = new Ping('8.8.8.8');
 
 ping.send(function(err, ms) {
-  console.log(this._host+' responded in '+ms+'ms.');
+  console.log(ping._host+' responded in '+ms+'ms.');
 });
 ```
 
