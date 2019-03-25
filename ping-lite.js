@@ -19,17 +19,17 @@ function Ping(host, options) {
   if (WIN) {
     this._bin = 'c:/windows/system32/ping.exe';
     this._args = (options.args) ? options.args : [ '-n', '1', '-w', '5000', host ];
-    this._regmatch = /time[><=](.+?)ms/;
+    this._regmatch = /[><=]([0-9.]+?)ms/;
   }
   else if (LIN) {
     this._bin = '/bin/ping';
     this._args = (options.args) ? options.args : [ '-n', '-w', '2', '-c', '1', host ];
-    this._regmatch = /time=(.+?) ms/; // need to verify this
+    this._regmatch = /=([0-9.]+?) ms/; // need to verify this
   }
   else if (MAC) {
     this._bin = '/sbin/ping';
     this._args = (options.args) ? options.args : [ '-n', '-t', '2', '-c', '1', host ];
-    this._regmatch = /time=(.+?) ms/;
+    this._regmatch = /=([0-9.]+?) ms/;
   }
   else {
     throw new Error('Could not detect your ping binary.');
