@@ -3,7 +3,8 @@ var spawn = require('child_process').spawn,
     fs = require('fs'),
     WIN = /^win/.test(process.platform),
     LIN = /^linux/.test(process.platform),
-    MAC = /^darwin/.test(process.platform);
+    MAC = /^darwin/.test(process.platform),
+    BSD = /^freebsd/.test(process.platform);
 
 module.exports = Ping;
 
@@ -27,6 +28,11 @@ function Ping(host, options) {
     this._regmatch = /=([0-9.]+?) ms/; // need to verify this
   }
   else if (MAC) {
+    this._bin = '/sbin/ping';
+    this._args = (options.args) ? options.args : [ '-n', '-t', '2', '-c', '1', host ];
+    this._regmatch = /=([0-9.]+?) ms/;
+  }
+  else if (BSD) {
     this._bin = '/sbin/ping';
     this._args = (options.args) ? options.args : [ '-n', '-t', '2', '-c', '1', host ];
     this._regmatch = /=([0-9.]+?) ms/;
